@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Contants from 'expo-constants';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    marginTop: Contants.statusBarHeight,
     alignItems: 'center',
     justifyContent: 'center',
   },
