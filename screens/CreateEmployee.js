@@ -50,30 +50,37 @@ const CreateEmployee = () =>{
                 onChangeText={text => setSalary(text)}
             />
                
-            <Button icon="upload" mode="contained" onPress={() => setModal(true)}>
-                Press me
+            <Button style={styles.inputStyle} theme={theme} icon="upload" mode="contained" onPress={() => setModal(true)}>
+                Upload Image
+            </Button> 
+
+            <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => console.log("Saved")}>
+                Save
             </Button> 
 
             <Modal
             animationType="slide"
-            transparent={false}
+            transparent={true}
             visible={modal}
             onRequestClose={()=>{
                 setModal(false)
             }}
             >
-                <View>
+                <View style={styles.modalView}>
+
                     <View style={styles.modalButtonView}>
-                        <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
-                            Cancel
+                        <Button icon="camera" theme={theme} mode="contained" onPress={() => console.log("Pressed")}>
+                            Camera
                         </Button>
-                        <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
-                            Cancel
+                        <Button icon="image-area" theme={theme} mode="contained" onPress={() => console.log("Pressed")}>
+                            Gallery
                         </Button>
                     </View>
-                    <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
+
+                    <Button theme={theme} onPress={() => setModal(false)}>
                         Cancel
                     </Button> 
+
                 </View>
             </Modal>              
         </View>
@@ -91,7 +98,20 @@ const styles = StyleSheet.create({
     },
     inputStyle:{
         margin: 5
-    }
+    },
+    modalView:{
+        position: "absolute",
+        bottom: 2,
+        width: "100%",
+        padding: 15,
+        backgroundColor: "#d8dbe8"
+    },
+    modalButtonView:{
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
+    },
+    
 })
 
 export default CreateEmployee;
