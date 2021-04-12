@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import {Card, FAB} from 'react-native-paper';
 
-const Home = (props) => {
+const Home = ({navigation}) => {
     const data = [
         {id:1, name:"Santi", position:"web dev"},
         {id:2, name:"Santi2", position:"web dev2"},
@@ -12,7 +12,7 @@ const Home = (props) => {
 
     const renderList = ((item)=>{
         return(
-            <Card style={styles.mycard}>
+            <Card style={styles.mycard} onPress={()=>navigation.navigate("Profile")}>
                 <View style={styles.cardView}> 
                     <Image 
                         style={{width:60, height:60, borderRadius:30}}
@@ -39,9 +39,10 @@ const Home = (props) => {
                 keyExtractor={item=>`${item.id}`}
             
             />
-            <FAB onPress={()=>props.navigation.navigate("Create")}
+            <FAB onPress={()=>navigation.navigate("Create")}
                 style={styles.fab}
                 small={false}
+                theme={{colors:{accent:"#006aff"}}}
                 icon="plus"
             />
         </View>
