@@ -22,7 +22,14 @@ const CreateEmployee = () =>{
                 aspect: [1,1],
                 quality: 0.7
             })
-            console.log(data);
+            if(!data.cancelled){
+                let newFile = {uri:data.uri, 
+                    type:`test/${data.uri.split(".")[1]}`, 
+                    name:`test/${data.uri.split(".")[1]}`
+                }
+                
+                handleUpload(newFile);
+            }
         }else{
             Alert.alert("You need to give us permission to work!");
         }
@@ -37,10 +44,33 @@ const CreateEmployee = () =>{
                 aspect: [1,1],
                 quality: 0.7
             })
-            console.log(data);
+            if(!data.cancelled){
+                let newFile = {uri:data.uri, 
+                    type:`test/${data.uri.split(".")[1]}`, 
+                    name:`test/${data.uri.split(".")[1]}`
+                }
+
+                handleUpload(newFile);
+            }
         }else{
             Alert.alert("You need to give us permission to work!");
         }
+    }
+
+    const handleUpload = (image)=>{
+        const data = new FormData();
+        data.append('file', image)
+        data.append('upload_preset','employeeApp')
+        data.append("cloud_name", "djtymktnb")
+
+        fetch("https://api.cloudinary.com/v1_1/djtymktnb/image/upload", {
+            method: "post",
+            body: data
+        }).then(res=>res.json())
+        .then(data=>{
+            setPicture(data.url)
+            setModal(false)
+        })
     }
 
     return (
@@ -82,7 +112,7 @@ const CreateEmployee = () =>{
                 onChangeText={text => setSalary(text)}
             />
                
-            <Button style={styles.inputStyle} theme={theme} icon="upload" mode="contained" onPress={() => setModal(true)}>
+            <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
                 Upload Image
             </Button> 
 
