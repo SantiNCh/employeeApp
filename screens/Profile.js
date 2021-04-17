@@ -9,9 +9,9 @@ const Profile = (props)=>{
     const{_id, name, picture, phone, salary, email, position} = props.route.params.item;
     const openDial=()=>{
         if(Platform.OS === "android"){
-            Linking.openURL("tel:12345")
+            Linking.openURL(`tel:${phone}`)
         }else{
-            Linking.openURL("telprompt:12345")
+            Linking.openURL(`telprompt:${phone}`)
         }
     }
 
@@ -35,7 +35,7 @@ const Profile = (props)=>{
             </View>
 
             <Card style={styles.mycard} onPress={()=>{
-                Linking.openURL("mailto:abc@abc.com")
+                Linking.openURL(`mailto:${email}`)
             }}>
                 <View style={styles.cardContent}>
                     <MaterialIcons name="email" size={32} color="#006aff" />
