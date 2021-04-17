@@ -4,7 +4,7 @@ import { TextInput, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions'
 
-const CreateEmployee = () =>{
+const CreateEmployee = ({navigation}) =>{
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -32,6 +32,7 @@ const CreateEmployee = () =>{
         .then(res=>res.json())
         .then(data=>{
             console.log(data)
+            navigation.navigate("Home")
         })
     }
 
