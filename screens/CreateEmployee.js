@@ -34,7 +34,9 @@ const CreateEmployee = ({navigation}) =>{
         .then(data=>{
             Alert.alert(`${data.name} was successfully saved`)
             navigation.navigate("Home")
-        })
+        }).catch(err=>{
+            Alert.alert("Something went wrong")
+         })
     }
 
     const pickFromGallery = async ()=>{
@@ -94,7 +96,9 @@ const CreateEmployee = ({navigation}) =>{
         .then(data=>{
             setPicture(data.url)
             setModal(false)
-        })
+        }).catch(err=>{
+            Alert.alert("Error while uploading")
+         })
     }
 
     return (

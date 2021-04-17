@@ -1,10 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, Alert} from 'react-native';
 import {Card, FAB} from 'react-native-paper';
 
 const Home = ({navigation}) => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const fetchData = () =>{
+         //This line is always different when i run ngrok http <port>
+         fetch("http://df6a2757234e.ngrok.io/")
+         .then(res=>res.json())
+         .then(results=>{
+             setData(results)
+             setLoading(false)
+         }).catch(err=>{
+            Alert.alert("Something went wrong")
+         })
+    }
 
     useEffect(()=>{
         //This line is always different when i run ngrok http <port>
@@ -37,9 +49,15 @@ const Home = ({navigation}) => {
 
     return(
         <View style={{flex:1}}>
-            {loading ? <ActivityIndicator size="large" color="#006aff" /> : 
-            <FlatList data={data} renderItem={({item})=>{return renderList(item)}} keyExtractor={item=>item._id}/>}
             
+            <FlatList 
+            data={data} 
+            renderItem={({item})=>{
+                return renderList(item)
+            }} 
+            keyExtractor={item=>item._id}
+            onRefresh={()=>fetchData()}
+            refreshing={loading}/>
             <FAB onPress={()=>navigation.navigate("Create")}
                 style={styles.fab}
                 small={false}
