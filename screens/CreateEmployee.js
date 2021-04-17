@@ -15,7 +15,8 @@ const CreateEmployee = ({navigation}) =>{
     const [modal, setModal] = useState(false);
 
     const submitData = () =>{
-        fetch("http://a6fb92b68c49.ngrok.io/send-data",{
+        //This line is always different when i run ngrok http <port>
+        fetch("http://df6a2757234e.ngrok.io/send-data",{
              method: "post",
              headers:{
                  'Content-Type': 'application/json'
@@ -31,7 +32,7 @@ const CreateEmployee = ({navigation}) =>{
         })
         .then(res=>res.json())
         .then(data=>{
-            console.log(data)
+            Alert.alert(`${data.name} was successfully saved`)
             navigation.navigate("Home")
         })
     }
@@ -98,86 +99,86 @@ const CreateEmployee = ({navigation}) =>{
 
     return (
         <View style={styles.root}>
-            <TextInput
-                label="Name"
-                style={styles.inputStyle}
-                value={name}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setName(text)}
-            />
+                <TextInput
+                    label="Name"
+                    style={styles.inputStyle}
+                    value={name}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setName(text)}
+                />
 
-            <TextInput
-                label="Email"
-                style={styles.inputStyle}
-                value={email}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setEmail(text)}
-            />
+                <TextInput
+                    label="Email"
+                    style={styles.inputStyle}
+                    value={email}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setEmail(text)}
+                />
 
-            <TextInput
-                label="Phone"
-                style={styles.inputStyle}
-                value={phone}
-                theme={theme}
-                keyboardType="number-pad"
-                mode="outlined"
-                onChangeText={text => setPhone(text)}
-            />
+                <TextInput
+                    label="Phone"
+                    style={styles.inputStyle}
+                    value={phone}
+                    theme={theme}
+                    keyboardType="number-pad"
+                    mode="outlined"
+                    onChangeText={text => setPhone(text)}
+                />
 
-            <TextInput
-                label="Salary"
-                style={styles.inputStyle}
-                value={salary}
-                theme={theme}
-                keyboardType="number-pad"
-                mode="outlined"
-                onChangeText={text => setSalary(text)}
-            />
+                <TextInput
+                    label="Salary"
+                    style={styles.inputStyle}
+                    value={salary}
+                    theme={theme}
+                    keyboardType="number-pad"
+                    mode="outlined"
+                    onChangeText={text => setSalary(text)}
+                />
 
-            <TextInput
-                label="Position"
-                style={styles.inputStyle}
-                value={position}
-                theme={theme}
-                mode="outlined"
-                onChangeText={text => setPosition(text)}
-            />
-               
-            <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
-                Upload Image
-            </Button> 
+                <TextInput
+                    label="Position"
+                    style={styles.inputStyle}
+                    value={position}
+                    theme={theme}
+                    mode="outlined"
+                    onChangeText={text => setPosition(text)}
+                />
+                
+                <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
+                    Upload Image
+                </Button> 
 
-            <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
-                Save
-            </Button> 
+                <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
+                    Save
+                </Button> 
 
-            <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modal}
-            onRequestClose={()=>{
-                setModal(false)
-            }}
-            >
-                <View style={styles.modalView}>
+                <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modal}
+                onRequestClose={()=>{
+                    setModal(false)
+                }}
+                >
+                    <View style={styles.modalView}>
 
-                    <View style={styles.modalButtonView}>
-                        <Button icon="camera" theme={theme} mode="contained" onPress={() => pickFromCamera()}>
-                            Camera
-                        </Button>
-                        <Button icon="image-area" theme={theme} mode="contained" onPress={() => pickFromGallery()}>
-                            Gallery
-                        </Button>
+                        <View style={styles.modalButtonView}>
+                            <Button icon="camera" theme={theme} mode="contained" onPress={() => pickFromCamera()}>
+                                Camera
+                            </Button>
+                            <Button icon="image-area" theme={theme} mode="contained" onPress={() => pickFromGallery()}>
+                                Gallery
+                            </Button>
+                        </View>
+
+                        <Button theme={theme} onPress={() => setModal(false)}>
+                            Cancel
+                        </Button> 
+
                     </View>
-
-                    <Button theme={theme} onPress={() => setModal(false)}>
-                        Cancel
-                    </Button> 
-
-                </View>
-            </Modal>              
+                </Modal>           
         </View>
     );
 }
