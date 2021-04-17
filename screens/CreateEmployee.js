@@ -11,7 +11,29 @@ const CreateEmployee = () =>{
     const [email, setEmail] = useState("");
     const [salary, setSalary] = useState("");
     const [picture, setPicture] = useState("");
+    const [position, setPosition] = useState("");
     const [modal, setModal] = useState(false);
+
+    const submitData = () =>{
+        fetch("http://a6fb92b68c49.ngrok.io/send-data",{
+             method: "post",
+             headers:{
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 name,
+                 email,
+                 phone,
+                 picture,
+                 salary,
+                 position
+             })
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+    }
 
     const pickFromGallery = async ()=>{
         const {granted} = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
@@ -108,15 +130,25 @@ const CreateEmployee = () =>{
                 style={styles.inputStyle}
                 value={salary}
                 theme={theme}
+                keyboardType="number-pad"
                 mode="outlined"
                 onChangeText={text => setSalary(text)}
+            />
+
+            <TextInput
+                label="Position"
+                style={styles.inputStyle}
+                value={position}
+                theme={theme}
+                mode="outlined"
+                onChangeText={text => setPosition(text)}
             />
                
             <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
                 Upload Image
             </Button> 
 
-            <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => console.log("Saved")}>
+            <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
                 Save
             </Button> 
 
