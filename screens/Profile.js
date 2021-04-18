@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Linking, Platform } from 'react-native';
+import { StyleSheet, Text, View, Image, Linking, Platform, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Title, Card, Button } from 'react-native-paper';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
@@ -7,6 +7,24 @@ import { MaterialIcons, Entypo } from '@expo/vector-icons';
 const Profile = (props)=>{
 
     const{_id, name, picture, phone, salary, email, position} = props.route.params.item;
+    const deleteEmployee = ()=>{
+        fetch("http://df6a2757234e.ngrok.io/delete",{
+            method:"post",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id:_id
+            })
+        })
+        .then(res=>res.json())
+        .then(deletedEmp=>{
+            Alert.alert(`${deletedEmp.name} deleted`)
+            props.navigation.navigate("Home")
+        }).catch(err=>{
+            Alert.alert("Error while uploading")
+         })
+    }
     const openDial=()=>{
         if(Platform.OS === "android"){
             Linking.openURL(`tel:${phone}`)
@@ -63,7 +81,7 @@ const Profile = (props)=>{
                 <Button icon="account-edit" theme={theme} mode="contained" onPress={() => console.log('Pressed')}>
                     Edit
                 </Button>
-                <Button icon="delete" theme={theme} mode="contained" onPress={() => console.log('Pressed')}>
+                <Button icon="delete" theme={theme} mode="contained" onPress={() => deleteEmployee()}>
                     Fire employee
                 </Button>
             </View>
