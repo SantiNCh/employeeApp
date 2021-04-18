@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, View, Modal, Alert, KeyboardAvoidingView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions'
@@ -34,6 +34,7 @@ const CreateEmployee = ({navigation, route}) =>{
     const [picture, setPicture] = useState(getDetails("picture"));
     const [position, setPosition] = useState(getDetails("position"));
     const [modal, setModal] = useState(false);
+    const [enableShift, setEnableShift] = useState(false)
 
     const submitData = () =>{
         //This line is always different when i run ngrok http <port>
@@ -149,93 +150,100 @@ const CreateEmployee = ({navigation, route}) =>{
     }
 
     return (
-        <View style={styles.root}>
-                <TextInput
-                    label="Name"
-                    style={styles.inputStyle}
-                    value={name}
-                    theme={theme}
-                    mode="outlined"
-                    onChangeText={text => setName(text)}
-                />
+        <KeyboardAvoidingView behavior="position" style={styles.root} enabled={enableShift}>
+            <View >
+                    <TextInput
+                        label="Name"
+                        style={styles.inputStyle}
+                        value={name}
+                        onFocus={()=>setEnableShift(false)}
+                        theme={theme}
+                        mode="outlined"
+                        onChangeText={text => setName(text)}
+                    />
 
-                <TextInput
-                    label="Email"
-                    style={styles.inputStyle}
-                    value={email}
-                    theme={theme}
-                    mode="outlined"
-                    onChangeText={text => setEmail(text)}
-                />
+                    <TextInput
+                        label="Email"
+                        style={styles.inputStyle}
+                        value={email}
+                        onFocus={()=>setEnableShift(false)}
+                        theme={theme}
+                        mode="outlined"
+                        onChangeText={text => setEmail(text)}
+                    />
 
-                <TextInput
-                    label="Phone"
-                    style={styles.inputStyle}
-                    value={phone}
-                    theme={theme}
-                    keyboardType="number-pad"
-                    mode="outlined"
-                    onChangeText={text => setPhone(text)}
-                />
+                    <TextInput
+                        label="Phone"
+                        style={styles.inputStyle}
+                        value={phone}
+                        onFocus={()=>setEnableShift(false)}
+                        theme={theme}
+                        keyboardType="number-pad"
+                        mode="outlined"
+                        onChangeText={text => setPhone(text)}
+                    />
 
-                <TextInput
-                    label="Salary"
-                    style={styles.inputStyle}
-                    value={salary}
-                    theme={theme}
-                    keyboardType="number-pad"
-                    mode="outlined"
-                    onChangeText={text => setSalary(text)}
-                />
+                    <TextInput
+                        label="Salary"
+                        style={styles.inputStyle}
+                        value={salary}
+                        onFocus={()=>setEnableShift(true)}
+                        theme={theme}
+                        keyboardType="number-pad"
+                        mode="outlined"
+                        onChangeText={text => setSalary(text)}
+                    />
 
-                <TextInput
-                    label="Position"
-                    style={styles.inputStyle}
-                    value={position}
-                    theme={theme}
-                    mode="outlined"
-                    onChangeText={text => setPosition(text)}
-                />
-                
-                <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
-                    Upload Image
-                </Button> 
-                {route.params ? 
-                <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => updateDetails()}>
-                    Update
-                </Button>
-                :
-                <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
-                    Save
-                </Button> }
-                
+                    <TextInput
+                        label="Position"
+                        style={styles.inputStyle}
+                        value={position}
+                        onFocus={()=>setEnableShift(true)}
+                        theme={theme}
+                        mode="outlined"
+                        onChangeText={text => setPosition(text)}
+                    />
+                    
+                    <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
+                        Upload Image
+                    </Button> 
+                    {route.params ? 
+                    <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => updateDetails()}>
+                        Update
+                    </Button>
+                    :
+                    <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
+                        Save
+                    </Button> }
+                    
 
-                <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modal}
-                onRequestClose={()=>{
-                    setModal(false)
-                }}
-                >
-                    <View style={styles.modalView}>
+                    <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modal}
+                    onRequestClose={()=>{
+                        setModal(false)
+                    }}
+                    >
+                        <View style={styles.modalView}>
 
-                        <View style={styles.modalButtonView}>
-                            <Button icon="camera" theme={theme} mode="contained" onPress={() => pickFromCamera()}>
-                                Camera
-                            </Button>
-                            <Button icon="image-area" theme={theme} mode="contained" onPress={() => pickFromGallery()}>
-                                Gallery
-                            </Button>
+                            <View style={styles.modalButtonView}>
+                                <Button icon="camera" theme={theme} mode="contained" onPress={() => pickFromCamera()}>
+                                    Camera
+                                </Button>
+                                <Button icon="image-area" theme={theme} mode="contained" onPress={() => pickFromGallery()}>
+                                    Gallery
+                                </Button>
+                            </View>
+
+                            <Button theme={theme} onPress={() => setModal(false)}>
+                                Cancel
+                            </Button> 
+
                         </View>
-
-                        <Button theme={theme} onPress={() => setModal(false)}>
-                            Cancel
-                        </Button> 
-
-                    </View>
-                </Modal>           
-        </View>
+                    </Modal>           
+            </View>
+        </KeyboardAvoidingView>    
     );
 }
 
