@@ -8,7 +8,8 @@ const Profile = (props)=>{
 
     const{_id, name, picture, phone, salary, email, position} = props.route.params.item;
     const deleteEmployee = ()=>{
-        fetch("http://df6a2757234e.ngrok.io/delete",{
+        //This line is always different when i run ngrok http <port>
+        fetch("http://5fa99f6389ac.ngrok.io/delete",{
             method:"post",
             headers:{
                 'Content-Type': 'application/json'
@@ -78,7 +79,9 @@ const Profile = (props)=>{
             </Card>
 
             <View style={{flexDirection:"row", justifyContent:"space-around", padding:10}}>
-                <Button icon="account-edit" theme={theme} mode="contained" onPress={() => console.log('Pressed')}>
+                <Button icon="account-edit" theme={theme} mode="contained" onPress={() => {
+                    props.navigation.navigate("Create", {_id, name, picture, phone, salary, email, position})}
+                    }>
                     Edit
                 </Button>
                 <Button icon="delete" theme={theme} mode="contained" onPress={() => deleteEmployee()}>

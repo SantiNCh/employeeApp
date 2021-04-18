@@ -8,7 +8,7 @@ const Home = ({navigation}) => {
 
     const fetchData = () =>{
          //This line is always different when i run ngrok http <port>
-         fetch("http://df6a2757234e.ngrok.io/")
+         fetch("http://5fa99f6389ac.ngrok.io/")
          .then(res=>res.json())
          .then(results=>{
              setData(results)
@@ -20,7 +20,7 @@ const Home = ({navigation}) => {
 
     useEffect(()=>{
         //This line is always different when i run ngrok http <port>
-        fetch("http://df6a2757234e.ngrok.io/")
+        fetch("http://5fa99f6389ac.ngrok.io/")
         .then(res=>res.json())
         .then(results=>{
             setData(results)

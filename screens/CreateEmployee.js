@@ -4,19 +4,40 @@ import { TextInput, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions'
 
-const CreateEmployee = ({navigation}) =>{
+const CreateEmployee = ({navigation, route}) =>{
+    const getDetails = (type)=>{
+        if(route.params){
+            switch(type){
+                case "name":
+                    return route.params.name
+                case "phone":
+                    return route.params.phone
+                case "email":
+                    return route.params.email
+                case "salary":
+                    return route.params.salary
+                case "picture":
+                    return route.params.picture
+                case "position":
+                    return route.params.position
+                                    
+            }
+        }
+        return ""
+    }
 
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [salary, setSalary] = useState("");
-    const [picture, setPicture] = useState("");
-    const [position, setPosition] = useState("");
+    
+    const [name, setName] = useState(getDetails("name"));
+    const [phone, setPhone] = useState(getDetails("phone"));
+    const [email, setEmail] = useState(getDetails("email"));
+    const [salary, setSalary] = useState(getDetails("salary"));
+    const [picture, setPicture] = useState(getDetails("picture"));
+    const [position, setPosition] = useState(getDetails("position"));
     const [modal, setModal] = useState(false);
 
     const submitData = () =>{
         //This line is always different when i run ngrok http <port>
-        fetch("http://df6a2757234e.ngrok.io/send-data",{
+        fetch("http://5fa99f6389ac.ngrok.io/send-data",{
              method: "post",
              headers:{
                  'Content-Type': 'application/json'
@@ -33,6 +54,32 @@ const CreateEmployee = ({navigation}) =>{
         .then(res=>res.json())
         .then(data=>{
             Alert.alert(`${data.name} was successfully saved`)
+            navigation.navigate("Home")
+        }).catch(err=>{
+            Alert.alert("Something went wrong")
+         })
+    }
+
+    const updateDetails = () =>{
+        //This line is always different when i run ngrok http <port>
+        fetch("http://5fa99f6389ac.ngrok.io/update",{
+             method: "post",
+             headers:{
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                 id: route.params._id,
+                 name,
+                 email,
+                 phone,
+                 picture,
+                 salary,
+                 position
+             })
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            Alert.alert(`${data.name} was updated`)
             navigation.navigate("Home")
         }).catch(err=>{
             Alert.alert("Something went wrong")
@@ -153,10 +200,15 @@ const CreateEmployee = ({navigation}) =>{
                 <Button style={styles.inputStyle} theme={theme} icon={picture==""?"upload":"check"} mode="contained" onPress={() => setModal(true)}>
                     Upload Image
                 </Button> 
-
+                {route.params ? 
+                <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => updateDetails()}>
+                    Update
+                </Button>
+                :
                 <Button style={styles.inputStyle} theme={theme} icon="content-save" mode="contained" onPress={() => submitData()}>
                     Save
-                </Button> 
+                </Button> }
+                
 
                 <Modal
                 animationType="slide"
